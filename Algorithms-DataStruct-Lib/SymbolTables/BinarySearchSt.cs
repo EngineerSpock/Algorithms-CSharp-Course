@@ -137,9 +137,9 @@ namespace Algorithms_DataStruct_Lib.SymbolTables
 
         public IEnumerable<TKey> Keys()
         {
-            foreach (var key in _keys)
+            for (int i = 0; i < Count; i++)
             {
-                yield return key;
+                yield return _keys[i];
             }
         }
 

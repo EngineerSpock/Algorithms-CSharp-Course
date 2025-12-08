@@ -33,7 +33,16 @@ namespace Algorithms_DataStruct_Lib.Trees
         public bool contains(TKey key)
         {
             if (key == null) throw new ArgumentException("argument to contains() is null");
-            return get(key) != null;
+            return Contains(_root, key);
+        }
+
+        private bool Contains(TreeNode node, TKey key)
+        {
+            if (node == null) return false;
+            var cmp = key.CompareTo(node.Key);
+            if (cmp < 0) return Contains(node.Left, key);
+            if (cmp > 0) return Contains(node.Right, key);
+            return true;
         }
 
         /**

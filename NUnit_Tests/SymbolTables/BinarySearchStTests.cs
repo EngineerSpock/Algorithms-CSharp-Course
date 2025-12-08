@@ -71,6 +71,19 @@ namespace Algorithms.DataStruct.Lib.Tests.SymbolTables
             CollectionAssert.AreEqual(expected, _bst.Keys());
         }
 
+        [Test]
+        public void Keys_DoesNotReturnDefaultSlots_WhenCapacityIsGreaterThanCount()
+        {
+            _bst = new BinarySearchSt<string, int>(4);
+
+            _bst.Add("b", 2);
+            _bst.Add("a", 1);
+
+            var expected = new List<string> {"a", "b"};
+
+            CollectionAssert.AreEqual(expected, _bst.Keys());
+        }
+
 
         [Test]
         public void MinMax_SeveralItems_ReturnsMinAndMax()

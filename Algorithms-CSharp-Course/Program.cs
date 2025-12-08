@@ -9,6 +9,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Algorithms_DataStruct_Lib;
+using Algorithms_DataStruct_Lib.Alignment;
+using Algorithms_DataStruct_Lib.BranchPrediction;
 using Algorithms_DataStruct_Lib.Stacks;
 using Algorithms_DataStruct_Lib.SymbolTables;
 using Algorithms_DataStruct_Lib.Trees;
@@ -19,150 +21,45 @@ namespace Algorithms_CSharp_Course
     {
         static void Main(string[] args)
         {
-            foreach (var prime in Prime.Sieve(30))
+            BranchPredictionBench.Run();
+            // SimdAlignmentScenariosBench.RunAll();
+
+            Console.Read(); 
+        }
+
+        private static void HashSetTestRun()
+        {
+            var c1 = new Person
             {
-                Console.WriteLine(prime);
-            }
+                Age = 18,
+                Ssn = 1000
+            };
 
-            Console.Read();
-
-            #region invisible
-            var heapTest = new MaxHeap<int>();
-            heapTest.Insert(24);
-            heapTest.Insert(37);
-            heapTest.Insert(17);
-            heapTest.Insert(28);
-            heapTest.Insert(31);
-            heapTest.Insert(29);
-            heapTest.Insert(15);
-            heapTest.Insert(12);
-            heapTest.Insert(20);
-
-            heapTest.Sort();
-
-            //Console.WriteLine(heapTest.Peek());
-            //Console.WriteLine(heapTest.Remove());
-            //Console.WriteLine(heapTest.Peek());
-
-            //heapTest.Insert(40);
-
-            //Console.WriteLine(heapTest.Peek());
-            
-            foreach (var val in heapTest.Values())
+            var c2 = new Person
             {
-                Console.Write($"{val} ");
-            }
+                Age = 18,
+                Ssn = 1000
+            };
 
+            Console.WriteLine(c1.GetHashCode() == c2.GetHashCode());
+
+            HashSet<Person> hs = [c1, c2];
+            Console.WriteLine(hs.Count);
             Console.Read();
+        }
 
-            var bstTest = new Bst<int>();
-            bstTest.Insert(37);
-            bstTest.Insert(24);
-            bstTest.Insert(17);
-            bstTest.Insert(28);
-            bstTest.Insert(31);
-            bstTest.Insert(29);
-            bstTest.Insert(15);
-            bstTest.Insert(12);
-            bstTest.Insert(20);
-
-            foreach (var i in bstTest.TraverseInOrder())
-            {
-                Console.Write($"{i} ");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine(bstTest.Min());
-            Console.WriteLine(bstTest.Max());
-            Console.WriteLine(bstTest.Get(20).Value);
-            Console.Read();
-
-            var number1 = new PhoneNumber("141804", "27", "90319334");
-            var number2 = new PhoneNumber("141804", "27", "90319334");
-            //var number3 = new PhoneNumber() {AreaCode = "141804", Exchange = "27", Number = "90319334"};
-
-            Console.WriteLine(number1.GetHashCode());
-            Console.WriteLine(number2.GetHashCode());
-            Console.WriteLine(number1 == number2);
-            Console.WriteLine(number1.Equals(number2));
-
-            var customers = new Dictionary<PhoneNumber, Person>();
-            customers.Add(number1, new Person());
-            //customers.Add(number2, new Person());
-
-            Console.WriteLine(customers.ContainsKey(number1));
-
-            //number1.AreaCode = "141805";
-
-            Console.WriteLine(customers.ContainsKey(number1));
-
-            Console.WriteLine("After adding phone numbers.");
-
-            var c = customers[number1];
-
-            Console.Read();
-#endregion
-            #region hidden
-            //var heap = new MaxHeap<int>();
-            //heap.Insert(24);
-            //heap.Insert(37);
-            //heap.Insert(17);
-            //heap.Insert(28);
-            //heap.Insert(31);
-            //heap.Insert(29);
-            //heap.Insert(15);
-            //heap.Insert(12);
-            //heap.Insert(20);
-
-            //Console.WriteLine(heap.Peek());
-            //Console.WriteLine(heap.Remove());
-            //Console.WriteLine(heap.Peek());
-
-            //heap.Insert(40);
-            //Console.WriteLine(heap.Peek());
-
-            //heap.Sort();
-
-            //foreach (var val in heap.Values())
-            //{
-            //    Console.Write($"{val} ");
-            //}
-
-            var bst = new Bst<int>();
-            bst.Insert(37);
-            bst.Insert(24);
-            bst.Insert(17);
-            bst.Insert(28);
-            bst.Insert(31);
-            bst.Insert(29);
-            bst.Insert(15);
-            bst.Insert(12);
-            bst.Insert(20);
-
-            //bst.Remove(24);
-
-            
-
-            Console.WriteLine();
-
-            Console.WriteLine(bst.Min());
-            Console.WriteLine(bst.Max());
-
-            Console.WriteLine(bst.Get(20).Value);
-
-            Console.Read();
-
-            //var sst = new SequentialSearchSt<string, int>();
+        private static void BstTestRun()
+        {
             var sst = new BinarySearchSt<string, int>(1000000);
 
             //const int minLength = 10;
             const int minLength = 8;
             //string[] words = File.ReadAllText("Data\\leipzig1M.txt")
-            string[] separators = { "\r\n", "", " "};
+            string[] separators = { "\r\n", "", " " };
             string[] words = File.ReadAllText("Data\\tale.txt")
-                        .Split(separators, StringSplitOptions.RemoveEmptyEntries) 
+                        .Split(separators, StringSplitOptions.RemoveEmptyEntries)
                         //.Select(str => Regex.Replace(str, "[^a-zA-Z0-9_]+", "", RegexOptions.Compiled))
-                        .Where(str => str.Length >= minLength)                                        
+                        .Where(str => str.Length >= minLength)
                         .ToArray();
 
             var find = words.ToList().Where(str => str.Contains("busin")).ToList();
@@ -192,113 +89,6 @@ namespace Algorithms_CSharp_Course
 
             Console.WriteLine($"The max counter = {sst.GetValueOrDefault(max)} and it is for {max}");
             Console.Read();
-
-            //stack on array vs stack on linked list
-            Stopwatch w = new Stopwatch();
-            Stack<int> s = new Stack<int>();
-
-            w.Start();
-            for (int i = 0; i < 100000000; i++)
-            {
-                s.Push(i);
-            }
-            w.Stop();
-
-            Console.WriteLine(w.ElapsedMilliseconds);
-
-            LinkedStack<int> ls = new LinkedStack<int>();
-            w.Restart();
-            for (int i = 0; i < 100000000; i++)
-            {
-                ls.Push(i);
-            }
-            w.Stop();
-
-            Console.WriteLine(w.ElapsedMilliseconds);
-
-            Console.Read();
-            //string str1 = "Hello, world!";
-            //string str2 = "Hello, world!";
-
-            var c1 = new Person {
-                Age = 18,
-                Ssn = 1000
-            };
-
-            var c2 = new Person {
-                Age = 18,
-                Ssn = 1000
-            };
-
-            Console.WriteLine(c1.GetHashCode() == c2.GetHashCode());
-
-            HashSet<Person> hs = [c1, c2];
-            Console.WriteLine(hs.Count);
-            Console.Read();
-            //TestThreeSum();
-
-            //try
-            //{
-            //    var ss = new SortedSet<int>();
-            //    ss.Add(1);
-            //    ss.Add(2);
-            //    ss.Add(1);
-                
-
-            //}
-            //catch (Exception exception)
-            //{
-            //    Console.WriteLine(exception);
-            //}
-
-            //var sl = new SortedList<int, string>();
-            //try
-            //{
-
-            //    sl.Add(1, "1");
-            //    sl.Add(2, "2");
-            //    sl.Add(1, "3");
-            //}
-            ////sl.Capacity
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
-
-            //try
-            //{
-            //    var sd = new SortedDictionary<int, string>();
-            //    sd.Add(1, "1");
-            //    sd.Add(2, "2");
-            //    sd.Add(1, "3");
-                
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //}
-
-            //try
-            //{
-            //    var dic = new Dictionary<int, string>();
-            //    dic.Add(1, "1");
-            //    dic.Add(2, "2");
-            //    dic.Add(1, "3");
-                
-            //}
-            //catch (Exception exception)
-            //{
-            //    Console.WriteLine(exception);
-            //}
-
-            //int[] keys = {3, 0, 7, 2, 4};
-            //int[] values = {9, 8, 12, 14, 15};
-
-            //Array.Sort(keys, values);
-
-            Console.Read();
-
-            #endregion
         }
 
         private static void LinearSearchDemo()

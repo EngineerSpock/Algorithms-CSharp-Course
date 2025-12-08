@@ -84,7 +84,7 @@ namespace Algorithms_DataStruct_Lib.SymbolTables
 
                 yield return p;
 
-                for (int i = p * p; i <= max; i+=p)
+                for (int i = p * p; i <= max; i += p)
                 {
                     composite[i] = true;
                 }
