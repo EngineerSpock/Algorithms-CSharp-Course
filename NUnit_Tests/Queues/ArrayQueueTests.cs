@@ -111,5 +111,24 @@ namespace Algorithms
 
             CollectionAssert.AreEqual(new List<int> { 1, 2, 3 }, q);
         }
+
+        [Test]
+        public void Enqueue_AfterRemovingHead_GrowsWithoutLosingElements()
+        {
+            var queue = new ArrayQueue<int>();
+
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            queue.Enqueue(3);
+            queue.Enqueue(4);
+
+            queue.Dequeue();
+            queue.Dequeue();
+
+            queue.Enqueue(5);
+
+            ClassicAssert.AreEqual(3, queue.Count);
+            CollectionAssert.AreEqual(new List<int> { 3, 4, 5 }, new List<int>(queue));
+        }
     }
 }

@@ -176,6 +176,5 @@ namespace Algorithms_DataStruct_Lib.Trees
             _heap[leftIndex] = _heap[rightIndex];
             _heap[rightIndex] = tmp;
         }
-
     }
 }
