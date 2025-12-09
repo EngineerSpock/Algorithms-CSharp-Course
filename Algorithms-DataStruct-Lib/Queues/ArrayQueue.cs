@@ -39,7 +39,7 @@ namespace Algorithms_DataStruct_Lib.Queues
             if (IsEmpty)
                 throw new InvalidOperationException();
 
-            _queue[_head++] = default(T);
+            _queue[_head++] = default;
 
             if (IsEmpty)
                 _head = _tail = 0;
