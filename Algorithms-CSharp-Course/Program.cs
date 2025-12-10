@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
+using System.Numerics;
 using Algorithms_DataStruct_Lib;
-using Algorithms_DataStruct_Lib.Alignment;
-using Algorithms_DataStruct_Lib.BranchPrediction;
-using Algorithms_DataStruct_Lib.Stacks;
+using Algorithms_DataStruct_Lib.MemCpuDemo;
 using Algorithms_DataStruct_Lib.SymbolTables;
-using Algorithms_DataStruct_Lib.Trees;
+using Algorithms_DataStruct_Lib.TlbDemo;
 
 namespace Algorithms_CSharp_Course
 {    
@@ -21,9 +16,12 @@ namespace Algorithms_CSharp_Course
     {
         static void Main(string[] args)
         {
-            BranchPredictionBench.Run();
+            // Console.WriteLine(Vector<float>.Count);
+            // SimdOneDimArrayBench.Run();
+            //BranchPredictionBench.Run();
             // SimdAlignmentScenariosBench.RunAll();
-
+            // FalseSharingBench.Run();
+            TlbRandomPagesBench.Run();
             Console.Read(); 
         }
 

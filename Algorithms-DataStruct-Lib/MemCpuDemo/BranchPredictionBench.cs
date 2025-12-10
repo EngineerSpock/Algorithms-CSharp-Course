@@ -2,7 +2,7 @@ using System;
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Running;
 
-namespace Algorithms_DataStruct_Lib.BranchPrediction
+namespace Algorithms_DataStruct_Lib.MemCpuDemo
 {
     /// <summary>
     /// Benchmark to demonstrate the impact of branch predictability.
@@ -10,7 +10,6 @@ namespace Algorithms_DataStruct_Lib.BranchPrediction
     /// - Predictable data (all small values first, then all large values)
     /// - Randomly shuffled data with the same value distribution
     /// </summary>
-    [MemoryDiagnoser]
     public class BranchPredictionBench
     {
         private const int N = 1_000_000;
