@@ -16,12 +16,13 @@ namespace Algorithms_CSharp_Course
     {
         static void Main(string[] args)
         {
+            StructLayoutFootprintBench.Run();
             // Console.WriteLine(Vector<float>.Count);
             // SimdOneDimArrayBench.Run();
             //BranchPredictionBench.Run();
             // SimdAlignmentScenariosBench.RunAll();
             // FalseSharingBench.Run();
-            TlbRandomPagesBench.Run();
+            //TlbRandomPagesBench.Run();
             Console.Read(); 
         }
 
