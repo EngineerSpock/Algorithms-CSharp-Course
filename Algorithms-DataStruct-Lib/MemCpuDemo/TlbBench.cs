@@ -8,13 +8,12 @@ namespace Algorithms_DataStruct_Lib.TlbDemo
     public class TlbRandomPagesBench
     {
         private const int PageSize    = 4096;
-        private const int Operations  = 50_000_000; // more ops → меньше шума
+        private const int Operations  = 50_000_000; // more ops → less noise
 
         private byte[] _buffer = null!;
         private int[] _randomPages = null!; // precomputed random page indices in [0, PagesToTouch)
 
-        // Сколько разных страниц входит в рабочий набор.
-        // Ожидаем строгий рост времени:
+        // Number of pages in the working set
         // 1 < 64 < 256 < 1024 < 4096 < 16384
         [Params(1, 64, 256, 1024, 4096, 16384)]
         public int PagesToTouch { get; set; }
@@ -22,16 +21,14 @@ namespace Algorithms_DataStruct_Lib.TlbDemo
         [GlobalSetup]
         public void Setup()
         {
-            // Рабочий набор страниц = PagesToTouch.
-            // Размер буфера — ровно столько страниц.
+            // Buffer size depends on the working set.
             _buffer = new byte[PagesToTouch * PageSize];
 
-            // Инициализируем буфер детерминированными данными
             for (int i = 0; i < _buffer.Length; i++)
                 _buffer[i] = (byte)(i * 37 + 11);
 
-            // Предварительно считаем последовательность случайных страниц
-            // в диапазоне [0, PagesToTouch).
+            // Precomputing random page indices
+            // in range [0, PagesToTouch).
             _randomPages = new int[Operations];
             var rnd = new Random(42);
             int pagesToTouch = PagesToTouch;
@@ -51,16 +48,17 @@ namespace Algorithms_DataStruct_Lib.TlbDemo
 
             long sum = 0;
 
-            // Выполняем одинаковое количество обращений во всех сценариях.
+            // We perform the same number of memory accesses in all scenarios.
             //
-            // Для каждого обращения:
-            //   - берём заранее сгенерированный случайный номер страницы,
-            //   - читаем один байт в начале этой страницы.
+            // For each access:
+            //   - we take a pre-generated random page index,
+            //   - we read one byte at the beginning of that page.
             //
-            // По мере роста PagesToTouch:
-            //   - рабочий набор охватывает всё больше страниц,
-            //   - TLB должен держать всё больше трансляций,
-            //   - растёт число промахов → растёт число page walks → растёт средняя латентность.
+            // As PagesToTouch increases:
+            //   - the working set spans more memory pages,
+            //   - the TLB has to keep more address translations,
+            //   - the number of TLB misses grows → more page walks occur →
+            //     the average memory access latency increases.
             for (int i = 0; i < Operations; i++)
             {
                 int page = randomPages[i];
